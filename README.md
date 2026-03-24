@@ -22,7 +22,7 @@ PayrollDB manages employee compensation data across seven interconnected tables 
 
 Key features: generated stored columns, CHECK constraints on all enums, 11 foreign keys with cascading rules, and soft-delete support.
 
-See [`docs/PayrollDB_Schema_Reference.docx`](docs/PayrollDB_Schema_Reference.docx) for the full data dictionary.
+See [`docs/PayrollDB_Schema_Reference.docx`](docs/PayrollDB_Schema_Reference.pdf) for the full data dictionary.
 
 ## Sample data
 
