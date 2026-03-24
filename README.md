@@ -50,7 +50,7 @@ See [`docs/PayrollDB_Schema_Reference.docx`](docs/PayrollDB_Schema_Reference.pdf
 ## Getting started
 
 ```bash
-git clone https://github.com/yourusername/PayrollDB.git
+git clone https://github.com/dbar2002/PayrollDB.git
 cd PayrollDB
 sqlite3 payroll.db < sql/01_schema.sql
 sqlite3 payroll.db < sql/02_seed_data.sql
