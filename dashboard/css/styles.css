@@ -180,6 +180,14 @@ tbody tr:hover { background: var(--accent-dim); }
 .search-box:focus { border-color: var(--accent); }
 .search-box::placeholder { color: var(--text-3); }
 
+.export-btn {
+  padding: 8px 16px; background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); color: var(--text-2); font-size: 12px;
+  font-weight: 500; cursor: pointer; font-family: var(--font);
+  transition: all 0.15s; white-space: nowrap;
+}
+.export-btn:hover { border-color: var(--accent); color: var(--accent); }
+
 /* sql console */
 
 .sql-area {
@@ -202,6 +210,53 @@ tbody tr:hover { background: var(--accent-dim); }
 .sql-btn:hover { opacity: 0.85; }
 .sql-result { margin-top: 12px; overflow-x: auto; }
 .sql-error { color: var(--red); font-size: 13px; margin-top: 8px; font-family: var(--mono); }
+
+/* responsive */
+
+/* modal */
+
+.modal-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.6); display: flex;
+  align-items: center; justify-content: center; z-index: 100;
+}
+.modal-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 28px; width: 560px;
+  max-height: 90vh; overflow-y: auto;
+}
+.modal-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 20px; }
+
+/* forms */
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.form-group { display: flex; flex-direction: column; gap: 4px; }
+.form-group label { font-size: 11px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500; }
+.form-group input, .form-group select {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 8px 12px;
+  color: var(--text); font-size: 13px; font-family: var(--font);
+  outline: none; transition: border-color 0.15s;
+}
+.form-group input:focus, .form-group select:focus { border-color: var(--accent); }
+.form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+.btn-secondary {
+  padding: 8px 20px; background: var(--surface-2); color: var(--text-2);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 500; cursor: pointer; font-family: var(--font);
+}
+.btn-secondary:hover { border-color: var(--border-hover); color: var(--text); }
+
+/* action buttons in tables */
+
+.action-btn {
+  padding: 3px 10px; font-size: 11px; font-weight: 500;
+  border-radius: var(--radius-sm); cursor: pointer;
+  border: 1px solid var(--border); background: var(--surface-2);
+  color: var(--text-2); font-family: var(--font); transition: all 0.15s;
+}
+.action-btn:hover { border-color: var(--accent); color: var(--accent); }
+.action-btn.delete:hover { border-color: var(--red); color: var(--red); }
 
 /* responsive */
 

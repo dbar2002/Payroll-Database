@@ -50,23 +50,16 @@
     <div class="panel" id="panel-employees">
       <div class="section-header" style="margin-bottom:16px">
         <h2>All employees</h2>
-        <input class="search-box" id="emp-search" placeholder="Search by name, title, or dept...">
+        <div style="display:flex;gap:10px;align-items:center">
+          <input class="search-box" id="emp-search" placeholder="Search by name, title, or dept...">
+          <button class="sql-btn" id="add-emp-btn">+ Add employee</button>
+        </div>
       </div>
       <div id="table-employees"></div>
     </div>
 
     <div class="panel" id="panel-payroll">
       <div class="stats-grid" id="payroll-stats"></div>
-      <div class="chart-row">
-        <div class="chart-card">
-          <h3>Deductions by type</h3>
-          <div class="bar-chart" id="chart-deductions"></div>
-        </div>
-        <div class="chart-card">
-          <h3>Net pay by department</h3>
-          <div class="bar-chart" id="chart-net"></div>
-        </div>
-      </div>
       <div class="section">
         <div class="section-header"><h2>Payroll records</h2></div>
         <div id="table-payroll"></div>
@@ -95,8 +88,9 @@ LIMIT 10;</textarea>
   </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.11.0/sql-wasm.js"></script>
-<script src="js/db.js"></script>
+<div id="modal"></div>
+
+<script src="js/api.js"></script>
 <script src="js/render.js"></script>
 <script src="js/tabs.js"></script>
 <script src="js/app.js"></script>

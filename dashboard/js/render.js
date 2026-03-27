@@ -68,3 +68,58 @@ function renderBarChart(containerId, data, defaultColor = 'var(--accent)') {
   });
   document.getElementById(containerId).innerHTML = html;
 }
+
+function exportCSV(reportName) {
+  const queries = {
+    employees: `
+      SELECT e.employee_id, e.first_name, e.last_name, e.email, e.phone,
+             e.gender, e.address, e.date_of_birth, e.hire_date, e.termination_date,
+             e.job_title, d.name AS department, e.employment_status,
+             e.pay_frequency, e.base_salary
+      FROM employees e JOIN departments d ON e.department_id = d.department_id
+      ORDER BY e.employee_id
+    `,
+    payroll: `
+      SELECT p.payroll_id, e.first_name || ' ' || e.last_name AS employee,
+             d.name AS department, p.pay_period_start, p.pay_period_end,
+             p.gross_salary, p.total_deductions, p.net_salary,
+             p.payment_method, p.payment_status, p.payment_date
+      FROM payroll p
+      JOIN employees e ON p.employee_id = e.employee_id
+      JOIN departments d ON e.department_id = d.department_id
+      ORDER BY p.pay_period_start DESC
+    `,
+    reviews: `
+      SELECT pr.review_id, e.first_name || ' ' || e.last_name AS employee,
+             r.first_name || ' ' || r.last_name AS reviewer,
+             d.name AS department, pr.review_date, pr.review_period,
+             pr.rating, pr.status, pr.comments, pr.goals
+      FROM performance_reviews pr
+      JOIN employees e ON pr.employee_id = e.employee_id
+      JOIN employees r ON pr.reviewer_id = r.employee_id
+      JOIN departments d ON e.department_id = d.department_id
+      ORDER BY pr.review_date DESC
+    `,
+  };
+
+  const result = query(queries[reportName]);
+  if (result.error || !result.rows.length) return;
+
+  let csv = result.columns.join(',') + '\n';
+  result.rows.forEach(row => {
+    csv += row.map(val => {
+      if (val === null || val === undefined) return '';
+      const str = String(val);
+      return str.includes(',') || str.includes('"') || str.includes('\n')
+        ? '"' + str.replace(/"/g, '""') + '"' : str;
+    }).join(',') + '\n';
+  });
+
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = reportName + '.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}

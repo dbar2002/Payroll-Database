@@ -20,15 +20,24 @@ document.getElementById('emp-search').addEventListener('input', e => {
   searchTimeout = setTimeout(() => loadEmployees(e.target.value), 200);
 });
 
+// add employee button
+document.getElementById('add-emp-btn').addEventListener('click', showAddEmployeeForm);
+
 // sql console
-document.getElementById('sql-run').addEventListener('click', () => {
+document.getElementById('sql-run').addEventListener('click', async () => {
   const sql = document.getElementById('sql-input').value.trim();
   if (!sql) return;
-  const result = query(sql);
-  if (result.error) {
-    document.getElementById('sql-result').innerHTML = `<div class="sql-error">${result.error}</div>`;
-  } else {
-    renderTable('sql-result', result);
+  try {
+    const result = await apiPost('/query', { sql });
+    if (result.affected_rows !== undefined) {
+      document.getElementById('sql-result').innerHTML =
+        `<p style="color:var(--green);font-size:13px">${result.affected_rows} row(s) affected</p>`;
+    } else {
+      renderTable('sql-result', result);
+    }
+  } catch (err) {
+    document.getElementById('sql-result').innerHTML =
+      `<div class="sql-error">${err.message}</div>`;
   }
 });
 
@@ -39,17 +48,20 @@ document.getElementById('sql-input').addEventListener('keydown', e => {
 });
 
 // init
-initDB()
-  .then(() => {
-    const empCount = query("SELECT COUNT(*) FROM employees").rows[0][0];
-    document.getElementById('header-meta').textContent = `${empCount} employees · SQLite 3`;
+async function init() {
+  try {
+    const stats = await apiGet('/stats');
+    document.getElementById('header-meta').textContent =
+      `${stats.employees} employees · Flask + SQLite`;
     document.getElementById('loading').style.display = 'none';
     document.getElementById('app').classList.add('loaded');
     loadOverview();
-  })
-  .catch(err => {
+  } catch (err) {
     document.getElementById('loading').innerHTML = `
-      <p style="color:var(--red)">Failed to load database</p>
-      <p style="color:var(--text-3);font-size:12px">${err.message}</p>
+      <p style="color:var(--red)">Cannot connect to server</p>
+      <p style="color:var(--text-3);font-size:12px">Make sure the Flask server is running: python server/app.py</p>
     `;
-  });
+  }
+}
+
+init();
